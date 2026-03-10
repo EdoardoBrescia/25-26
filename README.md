@@ -28,11 +28,18 @@ This Repository contains the course material.
 * [static routing](https://github.com/compl-reti-unito/25-26/blob/main/Theory_slides/static-routing.pdf)
 * [LAB-K3](LAB-K3)
 
-# Week 4
+# Week 4: Routing, FRR, and RIP
 * [Intro to FRR](https://github.com/compl-reti-unito/25-26/blob/main/Theory_slides/frr.pdf)
 * [RIP](https://github.com/compl-reti-unito/25-26/blob/main/Theory_slides/rip.pdf)
 * [LAB-FRR](https://github.com/compl-reti-unito/25-26/tree/main/LAB-FRR%20and%20RIP/frrouting-introduction)
 * [LAB-RIP](https://github.com/compl-reti-unito/25-26/tree/main/LAB-FRR%20and%20RIP/rip)
+
+# Week 5: RIP II, OSPF
+
+* [OSPF](https://github.com/compl-reti-unito/25-26/blob/main/Theory_slides/rip.pdf)
+* [LAB-OSPF](https://github.com/compl-reti-unito/25-26/tree/main/LAB-FRR%20and%20RIP/ospf)
+* [LAB RIP II](https://github.com/compl-reti-unito/25-26/tree/main/LAB-FRR%20and%20RIP/ospf)
+
 
 
 <!-- cmvn -->
