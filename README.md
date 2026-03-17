@@ -3,10 +3,12 @@ This course provides students with practical experience in modern network archit
 
 See https://laurea.informatica.unito.it/do/corsi.pl/Show?_id=pgrx for more info.
 
-Lecturers: Prof. Michele Garetto, Prof. Gianluca Rizzo (name.surname@unito.it)
+Lecturers: 
+Prof. Michele Garetto,  
+Prof. Gianluca Rizzo (name.surname@unito.it)  
 Tutor: Luca Barra (luca.barra@edu.unito.it)
 
-Office hours: by appointment (book via e-mail).
+Office hours: by appointment (book via e-mail).  
 Moodle site of the course: https://informatica.i-learn.unito.it/course/view.php?id=3604
 
 This Repository contains the course material. 
