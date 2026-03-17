@@ -4,6 +4,7 @@
 This lab uses the OSPF simple lab topology from Kathara with FRRouting (FRR). You will configure single-area OSPF and observe shortest paths affected by interface costs, Designated Routers (DRs), the Link State Database (LSDB), and topology changes. 
 
 Answer preparation questions before the lab and perform hands-on experiments during the session.
+Note: it is not mandatory to produce a report, but highly recommended.
 
 ## Preparation
 Review OSPF concepts: link-state algorithm, areas, DR/BDR election.  
