@@ -7,7 +7,7 @@ Answer preparation questions before the lab and perform hands-on experiments dur
 Note: it is not mandatory to produce a report, but highly recommended.
 
 ## Preparation
-Review OSPF concepts: link-state algorithm, areas, DR/BDR election.  
+Review OSPF concepts: link-state algorithm, DR/BDR election.  
 
 **Question 0:** What is an LSA? How are LSA IDs and Router IDs determined in OSPF? 
 
