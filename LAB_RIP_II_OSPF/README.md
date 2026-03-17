@@ -1,45 +1,50 @@
-# 
-This course provides students with practical experience in modern network architecture, protocols, and administration through hands-on virtual laboratories. Students will work with emulated network scenarios to master both theoretical concepts and practical implementations.
+# OSPF Lab Exercise
+**March 17, 2026** 
 
-See https://laurea.informatica.unito.it/do/corsi.pl/Show?_id=pgrx for more info.
+## Abstract
+This lab uses the OSPF simple lab topology from Kathara with FRRouting (FRR). You will configure single-area OSPF, observe shortest paths influenced by interface costs, Designated Routers (DR), Link State Database (LSDB), and topology changes. Answer preparation questions before the lab and perform hands-on experiments during the session. Write answers in this document for your report.[file:3]
 
-Lecturers: Prof. Michele Garetto, Prof. Gianluca Rizzo (name.surname@unito.it)
-Tutor: Luca Barra (luca.barra@edu.unito.it)
+## Preparation
+Study OSPF concepts: link-state algorithm, areas, DR/BDR election, LSAs, SPF computation. Review FRR commands like `show ip ospf neighbor`, `show ip ospf database`, `show ip ospf route`.
 
-Office hours: by appointment (book via e-mail).
-Moodle site of the course: https://informatica.i-learn.unito.it/course/view.php?id=3604
+Prepare by drawing the lab topology: routers A (backbone), B, C, D with links 10.0.0.0/24 (A), 10.0.1.0/24 (B), 10.0.2.0/24 (C), 10.0.3.0/24 (D), tweaked costs (e.g., eth1 on A cost 45).[file:3]
 
-This Repository contains the course material. 
-> [!IMPORTANT]
-> As a preliminary step, update your local copy with `git pull`.
-> The course material is constantly updated. Important updates are notified in the announcements section of the Moodle site of the course.   
+## Organization
+Work in pairs on a Kathara setup matching the OSPF lab topology (likely provided or from lab_ospf_kathara.pdf). Use vtysh for FRR CLI. Collaborate with nearby groups for traceroute observations. X = your router ID (e.g., A=10.0.3.1).[file:2]
 
-# Week 1
+## Hardware and Setup
+Launch Kathara lab: `kathara lstart lab_ospf_kathara` (or similar). Routers: bb0 (10.0.2.3?), bb1 (10.0.3.1, DR), etc. Interfaces: eth0/eth1 with costs (default 10, tweaked e.g., 45,7,21,36).[file:3]
 
-* [Intro to the course](https://github.com/compl-reti-unito/25-26/blob/main/Theory_slides/Complementi_di_Reti.pdf)
-* [Intro to Docker](https://github.com/compl-reti-unito/25-26/blob/main/Theory_slides/Intro_to_Docker.pdf)
-* [Intro to Kathara'](https://github.com/compl-reti-unito/25-26/blob/main/Theory_slides/001-kathara-introduction.pdf)
+Configure basic IP: e.g., on bb1: `ip addr add 10.0.0.1/24 dev eth0`, `ip link set eth0 up`. Enable forwarding: `sysctl -w net.ipv4.ip_forward=1`.[file:3]
 
-* [LAB-K1](LAB-K1)
-* [LAB-K2](LAB-K2)
+## Basic OSPF Configuration
+Copy FRR configs: `cp /etc/frr/zebra.conf.sample /etc/frr/zebra.conf`, etc. Start daemons: `zebra -d`, `ospfd -d`.
 
-# Week 2-3
-* [two computers](https://github.com/compl-reti-unito/25-26/blob/main/Theory_slides/two-computers.pdf)
-* [static routing](https://github.com/compl-reti-unito/25-26/blob/main/Theory_slides/static-routing.pdf)
-* [LAB-K3](LAB-K3)
+Telnet vtysh: `vtysh`, `conf t`, `router ospf`, `network 10.0.0.0/24 area 0.0.0.0`, `ospf cost 45 eth1` (tweak as per topology). `write`.[file:3]
 
-# Week 4: Routing, FRR, and RIP
-* [Intro to FRR](https://github.com/compl-reti-unito/25-26/blob/main/Theory_slides/frr.pdf)
-* [RIP](https://github.com/compl-reti-unito/25-26/blob/main/Theory_slides/rip.pdf)
-* [LAB-FRR](https://github.com/compl-reti-unito/25-26/tree/main/LAB-FRR%20and%20RIP/frrouting-introduction)
-* [LAB-RIP](https://github.com/compl-reti-unito/25-26/tree/main/LAB-FRR%20and%20RIP/rip)
+## OSPF Neighbor Discovery
+**Question 1:** Run `show ip ospf neighbor` on all routers. How many neighbors per router? Explain Full/DR/DROther states.[file:3]  
+**Solution:** Expect 2 neighbors on most (e.g., bb1: bb0, bb2). Full state for LSDB sync; DR elected by priority (default 1), tiebreak Router ID.[file:3]
 
-# Week 5: RIP II, OSPF
+## LSDB and Topology View
+**Question 2:** Run `show ip ospf database` (router, network LSAs). Verify identical LSDB across routers? Decode one Router LSA: Link ID, Links.[file:3]  
+**Solution:** Yes, identical in single area. Router LSA Link ID=Router ID, links to Transit Networks (DR addr).[file:3]
 
-* [OSPF](https://github.com/compl-reti-unito/25-26/blob/main/Theory_slides/rip.pdf)
-* [LAB-OSPF](https://github.com/compl-reti-unito/25-26/tree/main/LAB-FRR%20and%20RIP/ospf)
-* [LAB RIP II](https://github.com/compl-reti-unito/25-26/tree/main/LAB-FRR%20and%20RIP/ospf)
+## Shortest Paths and Costs
+**Question 3:** `show ip ospf route`. Predict traceroute bb1 (10.0.0.1?) to 10.0.2.1 path/cost. Run `traceroute 10.0.2.1`. Matches? Reply path same?[file:3]  
+**Solution:** Via low-cost path (e.g., cost 21 via bb0), not high-cost 45. Symmetric due to shared LSDB.[file:3]
 
+## DR Election
+**Question 4:** Identify DR per segment (e.g., 10.0.0.0/24 DR=10.0.3.1). `show ip ospf interface`. Why infrequent changes?[file:3]  
+**Solution:** Highest priority/Router ID. New DR floods LSAs, so stable unless failure.[file:3]
 
+## Topology Changes
+**Question 5:** Down link (e.g., `ip link set eth1 down` on bb1). Observe `show ip ospf route` changes. Time to converge? LSDB update?[file:3]  
+**Solution:** Fast for link (immediate LSA), slower for router/DR (DeadInterval 40s or MaxAge 1h).[file:3]
 
-<!-- cmvn -->
+## Cost Modifications
+**Question 6:** Change cost (e.g., `interface eth1`, `ospf cost 5`). Predict/verify new paths via traceroute.[file:3]  
+**Solution:** SPF recomputes; observe shift to lower total cost path.[file:3]
+
+## Cleanup
+Stop FRR: `killall ospfd zebra`. `kathara lclean`. Reboot if physical.[file:3][file:2]
