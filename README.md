@@ -16,6 +16,20 @@ This Repository contains the course material.
 > As a preliminary step, update your local copy with `git pull`.
 > The course material is constantly updated. Important updates are notified in the announcements section of the Moodle site of the course.   
 
+# Available topics for dissertation (non-exhaustive list):  
+* SDN, OpenFlow, and their emulation
+* Any protocol used in IoT
+* Sigfox, LoRa
+* NB-IoT
+* Acoustic Underwater comms: protocols, routing
+* Optical Underwater comms: protocols, routing
+* Visible Light Communications
+* Protocols for vehicle platooning
+* dApp Protocols
+* Huawei NearLink (also known as SparkLink)
+* Time Sensitive Networking
+
+
 # Week 1
 
 * [Intro to the course](https://github.com/compl-reti-unito/25-26/blob/main/Theory_slides/Complementi_di_Reti.pdf)
