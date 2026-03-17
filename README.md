@@ -28,7 +28,7 @@ This Repository contains the course material.
 * dApp Protocols
 * Huawei NearLink (also known as SparkLink)
 * Time Sensitive Networking
-
+* Infiniband, Ethernet for HPC 
 
 # Week 1
 
