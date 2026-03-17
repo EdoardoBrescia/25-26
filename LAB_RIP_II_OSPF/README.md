@@ -107,9 +107,31 @@ Link ID         ADV Router      Age         Seq#       Checksum
 
 <img width="1669" height="843" alt="image" src="https://github.com/user-attachments/assets/ad982193-bdb6-4aae-ae06-caf21edba8ad" />
 
-**Question 1:** Run `show ip ospf neighbor` on all routers. How many neighbors per router? Explain Full/DR/DROther states.  
+**Question 5:** Run `show ip ospf neighbor` on all routers. How many neighbors per router? Explain.
 
-**Solution:** Expect 2 neighbors on most (e.g., bb1: bb0, bb2). Full state for LSDB sync; DR elected by priority (default 1), tiebreak Router ID.
+Expect 2 neighbors on most (e.g., bb1: bb0, bb2). Full state for LSDB sync; DR elected by priority (default 1), tiebreak Router ID.
+
+## OSPF Traceroute Experiments
+
+Perform traceroutes from/to different interfaces to verify SPF paths and symmetry.
+
+- Run `traceroute 10.0.2.1` from **bb1**  
+  - Expected path: Low-cost route (e.g., bb1 → bb0 → bb2; cost 21 + 10 vs. higher cost 45)  
+  - ICMP reply path: Symmetric (reverse path follows the same SPF tree due to shared LSDB)
+
+- Run `traceroute 10.0.3.2` from **bb1**  
+  - Expected path: bb1 → bb0 → bb3 (cost 36 + 10 = 46)
+
+- Observe the routing table:  
+  - Command: `vtysh -c 'show ip route'`  
+  - `O` = OSPF routes  
+  - `C` = Connected routes (preferred for directly connected networks)
+
+- Modify OSPF costs:  
+  - Use interface configuration: `interface ethX` → `ip ospf cost Y`  
+  - Optionally reset OSPF: `clear ip ospf process`  
+  - Re-run traceroute and observe SPF recalculation (new LSAs and path changes)
+
 
 ## LSDB and Topology View
 **Question 2:** Run `show ip ospf database` (router, network LSAs). Verify identical LSDB across routers? Decode one Router LSA: Link ID, Links.  
