@@ -67,7 +67,7 @@ First, answer the following questions:
 
 **Question 6:** Run `traceroute 10.0.2.1` from **bb1**. What do you observe?  
 
-**Question 7:** Run `traceroute 10.0.3.2` from **bb1**,What do you observe?
+**Question 7:** Run `traceroute 10.0.3.2` from **bb1**. What do you observe?
 
 **Question 8:** Modify OSPF costs. Re-run traceroute and observe SPF recalculation (new LSAs and path changes). How long does it take to reconverge after the changes? How can you explain that?
 
