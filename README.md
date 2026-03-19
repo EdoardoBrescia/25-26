@@ -57,8 +57,6 @@ Feel free to propose your own topic. In any case, contact the lecturers to set u
 # Week 5: OSPF
 
 * [OSPF](https://github.com/compl-reti-unito/25-26/blob/main/Theory_slides/lab_ospf_theory.pptx)
-<!--* [LAB-OSPF](https://github.com/compl-reti-unito/25-26/tree/main/LAB-FRR%20and%20RIP/ospf)-->
-
-
+* [LAB-OSPF](https://github.com/compl-reti-unito/25-26/blob/main/LAB_RIP_II_OSPF/LAB_OSPF_I.md)
 
 <!-- cmvn -->
