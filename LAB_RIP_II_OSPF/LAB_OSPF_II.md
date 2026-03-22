@@ -119,3 +119,47 @@ First, answer the following questions:
 **Question 10:** Add link loss: 
 ```plaintext
 tc qdisc add dev eth1 root netem loss 1%  # on ABR
+```
+Increase to 5%. Monitor LSDB variations and reconvergence in the stub area.
+
+## Advanced: Stub and External
+
+**Question 11:** Configure area 1.1.1.1 as `stub no-summary` on ABR (**E**) and all internal routers in that area (**I**, **J**). 
+
+On ABR **E** /etc/frr/frr.conf:
+~~~
+router ospf
+ ...
+ area 1.1.1.1 stub no-summary
+~~~
+
+On internal stub routers (**I**, **J**):
+~~~
+router ospf
+ ...
+ area 1.1.1.1 stub
+~~~
+
+Reload FRR (`systemctl restart frr`), then verify:
+- On stub internal (**I**): `show ip ospf database asbr-summary` → no LSAs.
+- On backbone (**A**): same command → sees ASBR-summary from ABR.
+- Check default route metric in stub `show ip ospf route`.[file:1]
+
+**Question 12:** Assume ASBR **O** (in backbone) injects BGP external routes (e.g., 50.0.0.0/16).
+
+On ASBR **O**:
+~~~
+router ospf
+ redistribute bgp 65000 metric-type 2 metric 100  # E2 external
+~~~
+
+Verify on backbone (**A**):
+- `show ip ospf database external` → sees E2 paths (high metric, tie-break by OSPF cost).
+- `show ip route` → O E2 50.0.0.0/16 via ASBR **O**.
+
+On stub **I** (with no-summary):
+- No external LSAs: `show ip ospf database external` empty.
+- Only default route: `O *> 0.0.0.0/0 [110/20] via ABR **E**` (stub metric).[file:1]
+
+Compare path preference: intra > inter > E1 > E2.
+
