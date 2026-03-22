@@ -143,9 +143,10 @@ router ospf
 Reload FRR (`systemctl restart frr`), then verify:
 - On stub internal (**I**): `show ip ospf database asbr-summary` → no LSAs.
 - On backbone (**A**): same command → sees ASBR-summary from ABR.
-- Check default route metric in stub `show ip ospf route`.[file:1]
+- Check default route metric in stub `show ip ospf route`.
 
 **Question 12:** Assume ASBR **O** (in backbone) injects BGP external routes (e.g., 50.0.0.0/16).
+<img width="1856" height="1372" alt="image" src="https://github.com/user-attachments/assets/4c4e99d1-5ad8-42a7-96c6-5994d3470af0" />
 
 On ASBR **O**:
 ~~~
