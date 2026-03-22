@@ -155,10 +155,10 @@ router ospf
 
 Reload: `systemctl restart frr` on all. Verify no ASBR-summary in stub:
 - **I**: `show ip ospf database asbr-summary` → empty
-- **A** (backbone): sees summaries from **E**[file:1]
+- **A** (backbone): sees summaries from **E**
 
 **Question 12:** Configure ASBR **O** to inject external route 50.0.0.0/16 as E2.
-
+<img width="1856" height="1372" alt="image" src="https://github.com/user-attachments/assets/4c4e99d1-5ad8-42a7-96c6-5994d3470af0" />
 On **O** /etc/frr/frr.conf (enable bgpd too: /etc/frr/daemons bgpd=yes):
 ~~~
 !
@@ -184,25 +184,6 @@ Restart FRR on **O**. Verify:
 - `show ip ospf database external` → empty (blocked by no-summary)
 - `show ip route` → only default `O 0.0.0.0/0 [110/20] via 100.0.0.1` (to ABR)
 
-Test: `ping 50.0.0.1` from **A** → succeeds via ASBR; from **I** → via default to backbone.[file:1]
+Test: `ping 50.0.0.1` from **A** → succeeds via ASBR; from **I** → via default to backbone.
 
-
-**Question 12:** Assume ASBR **O** (in backbone) injects BGP external routes (e.g., 50.0.0.0/16).
-<img width="1856" height="1372" alt="image" src="https://github.com/user-attachments/assets/4c4e99d1-5ad8-42a7-96c6-5994d3470af0" />
-
-On ASBR **O**:
-~~~
-router ospf
- redistribute bgp 65000 metric-type 2 metric 100  # E2 external
-~~~
-
-Verify on backbone (**A**):
-- `show ip ospf database external` → sees E2 paths (high metric, tie-break by OSPF cost).
-- `show ip route` → O E2 50.0.0.0/16 via ASBR **O**.
-
-On stub **I** (with no-summary):
-- No external LSAs: `show ip ospf database external` empty.
-- Only default route: `O *> 0.0.0.0/0 [110/20] via ABR **E**` (stub metric).[file:1]
-
-Compare path preference: intra > inter > E1 > E2.
 
