@@ -91,6 +91,15 @@ First, answer the following questions:
 **Question 7:** Identify ABRs and areas. Run `show ip ospf database summary` on internal routers. Note metrics from ABR.
 
 **Question 8:** On stub router r2, check `show ip ospf route` for default route. Why is it present? What is the metric?
+<!--
+On the stub router (likely r2 or r3 in area 1.1.1.1 or 2.2.2.2), show ip ospf route displays a default route O 0.0.0.0/0 [110/metric] (e.g., 11 or 20), via the ABR interface (e.g., eth1 to 100.0.0.1).
+​
+
+It is present because stub areas automatically receive a default route from the ABR instead of detailed external (AS-external) LSAs, reducing LSDB size and external route flooding—no ASBRs allowed in stubs.
+​
+
+The metric (e.g., 11) reflects the ABR-advertised cost: OSPF seed metric 10 + link cost to ABR (e.g., 1), with AD 110; backbone routers lack this default.
+-->
 
 **Question 9:** Shut down ABR link to the stub (eth1 on **E**). Observe and note convergence time, and LSDB changes.
 
