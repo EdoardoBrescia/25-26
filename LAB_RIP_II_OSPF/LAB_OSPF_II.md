@@ -101,9 +101,32 @@ It is present because stub areas automatically receive a default route from the 
 The metric (e.g., 11) reflects the ABR-advertised cost: OSPF seed metric 10 + link cost to ABR (e.g., 1), with AD 110; backbone routers lack this default.
 -->
 
-**Question 9:** Shut down ABR link to the stub (eth1 on **E**). Observe and note convergence time, and LSDB changes.
+**Question 9:** Shut down ABR link to the stub (eth2 on bb1). Observe and note convergence time, and LSDB changes.
+<!--
+Shutting down eth1 on ABR **E** (link to stub area 1.1.1.1) triggers fast OSPF reconvergence (~1-5 seconds in FRR lab). 
 
-**Question 10:** Add link loss: 
+## Expected Observations
+
+**Immediate effects (sub-second):**
+- Interface down detected; **E** stops Hellos on eth1.
+- Kernel removes connected route; Zebra notifies OSPF. 
+
+**LSDB Changes (1-3s):**
+- r2 flushes/updates its Router LSA (Type 1) in stub area LSDB (removes eth1 link).
+- No DR Type 2 LSA if point-to-point (/30); stub routers detect adjacency loss, reflood LSAs.
+- If ECMP to backbone (e.g., via **G** 110.0.0.0/30), ABR **E** recalculates inter-area summaries; injects updated default Type 3 LSA (metric increases if alternate path longer). Stub LSDB shows new Type 3 default via backup ABR path. 
+
+**Stub routers (**I**, **J**):**
+- Lose adjacency to **E**; SPF rerun → default route switches to alternate ABR (e.g., metric from 11 → 21).
+- `show ip ospf database summary` → updated Type 3 0.0.0.0/0 from backup ABR.
+- No external LSAs (stub blocks). 
+
+**Convergence time:** <5s total (Hello/Dead ~40s default, but LSA flood/SPF fast); faster with ECMP as OSPF precomputes multiples (`show ip route` shows both pre-fail). 
+
+**Verify:** `show log` for "link down", SPF events; `watch show ip ospf route` on stub for default flip.
+-->
+
+**Question 10:** Add link loss on ABR towards stub area: 
 ```plaintext
 tc qdisc add dev eth1 root netem loss 1%  # on ABR
 ```
