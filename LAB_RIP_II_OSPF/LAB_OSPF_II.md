@@ -136,6 +136,33 @@ Increase to 5%. Monitor LSDB variations and reconvergence in the stub area.
 
 **Preparation for ASBR:** Add ASBR router AS100r1 to lab.conf (connected to backbone):
 <img width="1856" height="1372" alt="image" src="https://github.com/user-attachments/assets/4c4e99d1-5ad8-42a7-96c6-5994d3470af0" />
+Sample `frr.conf` for router AS100r1:
+~~~
+!
+! FRRouting configuration file
+!
+!
+!    BGP CONFIGURATION
+!
+!
+router bgp 100
+no bgp ebgp-requires-policy
+no bgp network import-check
+network 50.0.0.0/16
+neighbor 140.0.0.1 remote-as 10
+neighbor 140.0.0.1 description bb3
+!
+log file /var/log/frr/frr.log
+!
+debug bgp
+debug bgp events
+debug bgp filters
+debug bgp fsm
+debug bgp keepalives
+debug bgp updates
+!
+~~~
+
 
 
 .startup for **O**:
