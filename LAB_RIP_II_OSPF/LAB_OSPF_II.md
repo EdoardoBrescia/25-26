@@ -20,11 +20,24 @@ In lab.conf, add lines for routers A, B, C, D (backbone area 0.0.0.0), E (ABR), 
 
 ~~~
 A[image]="kathara/frr"
-B[0]=A;B[image]="kathara/frr"
-C[0]=B;C[1]=D;C[image]="kathara/frr"
-D[0]=C;D[1]=E;D[image]="kathara/frr"
-E[0]=D;E[1]=I;E[2]=G;E[image]="kathara/frr"
-I[0]=E;I[image]="kathara/frr"
+
+B[0]=A;
+B[image]="kathara/frr"
+C[0]=B;  
+C[1]=D;
+C[image]="kathara/frr"
+
+D[0]=C;
+D[1]=E;
+D[image]="kathara/frr"
+
+E[0]=D;
+E[1]=I;
+E[2]=G;
+E[image]="kathara/frr"
+
+I[0]=E;
+I[image]="kathara/frr"
 ~~~
 
 The `.startup` file for backbone routers (e.g., A):
