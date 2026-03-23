@@ -17,19 +17,28 @@ Set up the lab configuration files and those of each router to implement the fol
 
 <img width="2126" height="1352" alt="image" src="https://github.com/user-attachments/assets/dd92b472-09be-4712-b78a-3b05dc5b9ebc" />
 Remember to edit `/etc/frr/daemons` to enable OSPF (`ospfd=yes`).
-Example FRR configuration file for backbone router :
+Example FRR configuration file `frr.conf` for backbone router bb1:
 
 ~~~
 !
+! FRRouting configuration file
+!
+!
+!  OSPF CONFIGURATION
+!
 interface eth0
- ip ospf cost 10
-interface eth1
- ip ospf cost 10
+ospf cost 90
 !
 router ospf
- network 10.0.0.0/24 area 0.0.0.0
- network 10.0.1.0/24 area 0.0.0.0
+! Speak OSPF on all interfaces falling in the listed subnets
+network 10.0.0.0/16 area 0.0.0.0
+network 100.0.0.0/30 area 1.1.1.1
+network 110.0.0.0/30 area 2.2.2.2
+area 1.1.1.1 stub
+area 2.2.2.2 stub
 !
+!
+log file /var/log/frr/frr.log
 ~~~
 
 For ABR E:
