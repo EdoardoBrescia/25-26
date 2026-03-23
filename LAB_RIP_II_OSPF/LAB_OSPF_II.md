@@ -13,7 +13,7 @@ Review OSPF multi-area concepts: areas (backbone, stub), ABRs, ASBRs, path types
 
 ## Setup
 
-Set up the lab configuration files and those of each router to implement the following multi-area topology.
+Set up the lab configuration files and the router configuration files to implement the following multi-area topology.
 
 <img width="2126" height="1352" alt="image" src="https://github.com/user-attachments/assets/dd92b472-09be-4712-b78a-3b05dc5b9ebc" />
 Remember to edit `/etc/frr/daemons` to enable OSPF (`ospfd=yes`).
@@ -41,36 +41,24 @@ area 2.2.2.2 stub
 log file /var/log/frr/frr.log
 ~~~
 
-For ABR E:
+For r1:
 
 ~~~
 !
-interface eth0
- ip ospf cost 10
-interface eth1
- ip ospf cost 10
-interface eth2
- ip ospf cost 10
+! FRRouting configuration file
+!
+!
+!  OSPF CONFIGURATION
 !
 router ospf
- network 10.0.2.0/24 area 0.0.0.0
- network 100.0.0.0/30 area 1.1.1.1
- network 110.0.0.0/30 area 2.2.2.2
- area 1.1.1.1 stub
+! Speak OSPF on all interfaces falling in the listed subnets
+network 100.0.0.0/30 area 1.1.1.1
+network 200.0.0.0/16 area 1.1.1.1
+area 1.1.1.1 stub
 !
+log file /var/log/frr/frr.log
 ~~~
 
-For stub area router I:
-
-~~~
-!
-interface eth0
- ip ospf cost 10
-!
-router ospf
- network 200.0.0.0/30 area 1.1.1.1
-!
-~~~
 
 ## OSPF Multi-Area Neighbor Discovery
 
