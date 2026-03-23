@@ -78,11 +78,11 @@ First, answer the following questions:
 
 **Question 2:** What does `show ip ospf route` display for inter-area (IA) paths?
 
-**Question 3:** Run `show ip ospf neighbor` on backbone (**A**) and stub routers (**I**). How many neighbors? Why no adjacency across areas?
+**Question 3:** Run `show ip ospf neighbor` on backbone and stub routers. How many neighbors? Why no adjacency across areas?
 
-**Question 4:** Run `traceroute 200.0.0.2` from **A** (backbone). What path via ABR? Run reverse from stub.
+**Question 4:** Run `traceroute 200.0.0.2` from bb1 (backbone). What path via ABR? Run reverse from stub.
 
-**Question 5:** On ABR **E**, run `show ip ospf database router` for area 0.0.0.0 and 1.1.1.1. Confirm separate LSDBs.
+**Question 5:** On ABR, run `show ip ospf database router` for area 0.0.0.0 and 1.1.1.1. Confirm separate LSDBs.
 
 **Question 6:** Modify interface cost on backbone link (e.g., eth1 on **A** to 50). Re-run traceroute from stub. Observe inter-area reconvergence.
 
