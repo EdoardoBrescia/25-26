@@ -59,6 +59,16 @@ area 1.1.1.1 stub
 log file /var/log/frr/frr.log
 ~~~
 
+For bb1, the startup file is:
+
+~~~
+ip address add 10.0.0.1/24 dev eth0
+ip address add 10.0.3.1/24 dev eth1
+ip address add 100.0.0.1/30 dev eth2
+ip address add 110.0.0.1/30 dev eth3
+systemctl start frr
+~~~
+
 
 ## OSPF Multi-Area Neighbor Discovery
 
