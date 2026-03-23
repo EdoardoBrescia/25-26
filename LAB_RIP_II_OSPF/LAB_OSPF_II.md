@@ -16,50 +16,8 @@ Review OSPF multi-area concepts: areas (backbone, stub), ABRs, ASBRs, path types
 Set up the lab configuration files and those of each router to implement the following multi-area topology.
 
 <img width="2126" height="1352" alt="image" src="https://github.com/user-attachments/assets/dd92b472-09be-4712-b78a-3b05dc5b9ebc" />
-In lab.conf, add lines for routers A, B, C, D (backbone area 0.0.0.0), E (ABR), and others in areas like 1.1.1.1 (stub), 2.2.2.2 with FRR images.
-
-~~~
-A[image]="kathara/frr"
-
-B[0]=A;
-B[image]="kathara/frr"
-C[0]=B;  
-C[1]=D;
-C[image]="kathara/frr"
-
-D[0]=C;
-D[1]=E;
-D[image]="kathara/frr"
-
-E[0]=D;
-E[1]=I;
-E[2]=G;
-E[image]="kathara/frr"
-
-I[0]=E;
-I[image]="kathara/frr"
-~~~
-
-The `.startup` file for backbone routers (e.g., A):
-
-~~~
-ip address add 10.0.0.1/24 dev eth0
-ip address add 10.0.1.1/24 dev eth1
-systemctl start frr
-~~~
-
-For ABR E:
-
-~~~
-ip address add 10.0.2.1/24 dev eth0  # backbone
-ip address add 100.0.0.1/30 dev eth1  # area 1.1.1.1
-ip address add 110.0.0.1/30 dev eth2  # area 2.2.2.2
-systemctl start frr
-~~~
-
 Remember to edit `/etc/frr/daemons` to enable OSPF (`ospfd=yes`).
-
-Example FRR configuration file for backbone router A:
+Example FRR configuration file for backbone router :
 
 ~~~
 !
