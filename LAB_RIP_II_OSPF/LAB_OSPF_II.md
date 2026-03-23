@@ -4,10 +4,10 @@
 This lab uses the OSPF multi-area lab topology from Kathara with FRRouting (FRR). You will configure multi-area OSPF, observe area-specific LSDBs, ABR summary LSAs, inter-area paths via the backbone, path types (intra/inter-area), and stub area default routes.
 
 Answer preparation questions before the lab and perform hands-on experiments during the session.
-Note: it is not mandatory to produce a report, but highly recommended to make the most of this lab.
+Note: It is not mandatory to produce a report, but highly recommended to make the most of this lab.
 
 ## Preparation
-Review OSPF multi-area concepts: areas (backbone 0.0.0.0, stub), ABRs, ASBRs, path types (intra-area, inter-area, E1/E2 external), summary LSAs.
+Review OSPF multi-area concepts: areas (backbone, stub), ABRs, ASBRs, path types (intra-area, inter-area, E1/E2 external), summary LSAs.
 
 **Question 0:** What is an ABR? How do routers in stub areas learn external routes?
 
